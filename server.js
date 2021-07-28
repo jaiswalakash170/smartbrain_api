@@ -47,10 +47,15 @@ app.post('/signin', (req, res) => {
     bcrypt.compare("veggies", hash, function(err, res) {
     // res = false
     });*/
-    if(req.body.email === database.users[0].email &&
-       req.body.password === database.users[0].password ){
-        res.json("success");
-    }else {
+    let found = false;
+    database.users.forEach(user => {
+        if(req.body.email === user.email &&
+            req.body.password === duser.password ){
+            found = true;
+            return res.json(res);
+        }
+    })
+    if(!found) {
         res.status(400).json("error logging in");
     }
 })
