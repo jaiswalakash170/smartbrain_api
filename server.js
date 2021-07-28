@@ -26,7 +26,7 @@ const database = {
 }
 
 app.get('/', (req, res) => {
-    console.log("This is working");
+    res.json(database.users);
 })
 
 app.post('/signin', (req, res) => {
