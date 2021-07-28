@@ -20,57 +20,29 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const database = {
-    users: [
-        {
-            id: '123',
-            name: 'John',
-            password: 'cookies',
-            email: 'john@gmail.com',
-            entries: 0,
-            joined: new Date()
-        },
-        {
-            id: '124',
-            name: 'Sally',
-            password: 'bananas',
-            email: 'sally@gmail.com',
-            entries: 0,
-            joined: new Date()
-        }
-    ],
-    login: [
-        {
-            id: '123',
-            hash: '',
-            email: 'john@gmail.com'
-        }
-    ]
-}
-
 app.get('/', (req, res) => {
     res.json(database.users);
 })
 
 app.post('/signin', (req, res) => {
-    // Load hash from your password DB.
-    /*bcrypt.compare("bacon", hash, function(err, res) {
-    // res == true
-    });
-    bcrypt.compare("veggies", hash, function(err, res) {
-    // res = false
-    });*/
-    let found = false;
-    database.users.forEach(user => {
-        if(req.body.email === user.email &&
-            req.body.password === user.password ){
-            found = true;
-            return res.json(user);
+    db.select('email', 'hash').from('login').where('email', '=', req.body.email)
+    .then(data => {
+        const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
+        if(isValid){
+            db.select('*').from('users').where('email', '=', req.body.email)
+            .then(user => {
+                res.json(user[0]);
+            })
+            .catch(error => {
+                res.status(400).json("Unable to get user");
+            })
+        } else{
+            res.status(400).json("Wrong credentials");
         }
     })
-    if(!found) {
-        res.status(400).json("error logging in");
-    }
+    .catch(error => {
+        res.status(400).json("Wrong credentials");
+    });
 })
 
 app.post('/register', (req, res) => {
