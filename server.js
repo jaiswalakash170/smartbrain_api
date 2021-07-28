@@ -51,8 +51,15 @@ app.post('/register', (req, res) => {
     res.json(database.users[database.users.length - 1]);
 })
 
-app.get('/profile/.userId', (req, res) => {
-    console.log("GET - profile", userId);
+app.get('/profile/:userId', (req, res) => {
+    const id = req.params.userId;
+    database.users.forEach(user => {
+        if(user.id === id){
+            res.json(user);
+        }else{
+            res.status(404).json("No such user");
+        }
+    })
 })
 
 app.put('/image', (req, res) => {
