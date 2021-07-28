@@ -53,13 +53,16 @@ app.post('/register', (req, res) => {
 
 app.get('/profile/:userId', (req, res) => {
     const id = req.params.userId;
+    let found = false;
     database.users.forEach(user => {
         if(user.id === id){
-            res.json(user);
-        }else{
-            res.status(404).json("No such user");
+            found = true;
+            return res.json(user);
         }
-    })
+    });
+    if(!found){
+        res.status(404).json("No such user");
+    }
 })
 
 app.put('/image', (req, res) => {
