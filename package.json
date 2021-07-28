@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/jaiswalakash170/smartbrain_api/issues"
   },
-  "homepage": "https://github.com/jaiswalakash170/smartbrain_api#readme"
+  "homepage": "https://github.com/jaiswalakash170/smartbrain_api#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "react": "^17.0.2"
+  }
 }
