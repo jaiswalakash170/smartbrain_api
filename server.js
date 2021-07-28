@@ -90,14 +90,14 @@ app.get('/profile/:userId', (req, res) => {
     }
 })
 
-app.post('/image', (req, res) => {
+app.put('/image', (req, res) => {
     const {id} = req.body;
     let found = false;
     database.users.forEach(user => {
         if(user.id === id){
             user.entries++;
             found = true;
-            return res.json(user.entries)
+            return res.json(user.entries);
         }
     })
     if(!found){
