@@ -39,7 +39,16 @@ app.post('/signin', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
-    console.log("POST - Register");
+    const {name, email, password} = req.body;
+    database.users.push({
+        id: '125',
+        name: name,
+        email: email,
+        password: password,
+        entries: 0,
+        joined: new Date()
+    });
+    res.json(database.users[database.users.length - 1]);
 })
 
 app.get('/profile/.userId', (req, res) => {
