@@ -65,8 +65,19 @@ app.get('/profile/:userId', (req, res) => {
     }
 })
 
-app.put('/image', (req, res) => {
-    console.log("PUT - Image");
+app.post('/image', (req, res) => {
+    const {id} = req.body;
+    let found = false;
+    database.users.forEach(user => {
+        if(user.id === id){
+            user.entries++;
+            found = true;
+            return res.json(user.entries)
+        }
+    })
+    if(!found){
+        res.status(404).json("No such user");
+    }
 })
 
 app.listen(3000, () => {
