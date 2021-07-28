@@ -50,9 +50,9 @@ app.post('/signin', (req, res) => {
     let found = false;
     database.users.forEach(user => {
         if(req.body.email === user.email &&
-            req.body.password === duser.password ){
+            req.body.password === user.password ){
             found = true;
-            return res.json(res);
+            return res.json(user);
         }
     })
     if(!found) {
